@@ -1,0 +1,82 @@
+{
+  "name": "react-example",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "main": "electron/main.js",
+  "scripts": {
+    "dev": "tsx server.js",
+    "dev:web": "vite --host 127.0.0.1 --port 5173",
+    "dev:api": "cross-env DISABLE_VITE=true PORT=3000 HOST=127.0.0.1 tsx server.js",
+    "dev:electron": "wait-on tcp:3000 http://127.0.0.1:5173 && cross-env ELECTRON_START_URL=http://127.0.0.1:5173 ELECTRON_EXTERNAL_API=true electron .",
+    "dev:desktop": "concurrently -k \"npm:dev:api\" \"npm:dev:web\" \"npm:dev:electron\"",
+    "build": "vite build",
+    "build:renderer": "vite build",
+    "build:desktop": "npm run build:renderer && electron-builder",
+    "preview": "vite preview",
+    "start:electron": "cross-env NODE_ENV=production electron .",
+    "clean": "node -e \"const fs=require('fs');fs.rmSync('dist',{recursive:true,force:true});\"",
+    "lint": "echo 'Skipping lint'"
+  },
+  "dependencies": {
+    "@google/genai": "^1.29.0",
+    "@tailwindcss/vite": "^4.1.14",
+    "@vitejs/plugin-react": "^5.0.4",
+    "clsx": "^2.1.1",
+    "csv-parser": "^3.2.0",
+    "date-fns": "^4.1.0",
+    "dotenv": "^17.2.3",
+    "express": "^4.21.2",
+    "lucide-react": "^0.546.0",
+    "motion": "^12.23.24",
+    "multer": "^2.1.1",
+    "mysql2": "^3.19.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "react-router-dom": "^7.13.1",
+    "recharts": "^3.8.0",
+    "tailwind-merge": "^3.5.0",
+    "vite": "^6.2.0",
+    "xlsx": "^0.18.5",
+    "zustand": "^5.0.11"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.21",
+    "@types/node": "^22.14.0",
+    "autoprefixer": "^10.4.21",
+    "concurrently": "^9.1.2",
+    "cross-env": "^7.0.3",
+    "electron": "^35.1.4",
+    "electron-builder": "^26.0.12",
+    "tailwindcss": "^4.1.14",
+    "tsx": "^4.21.0",
+    "typescript": "~5.8.2",
+    "vite": "^6.2.0",
+    "wait-on": "^8.0.3"
+  },
+  "build": {
+    "appId": "com.attendiq.desktop",
+    "productName": "AttendIQ Desktop",
+    "files": [
+      "dist/**/*",
+      "electron/**/*",
+      "server.js",
+      "db.js",
+      "mock_db.json",
+      "package.json"
+    ],
+    "asar": true,
+    "directories": {
+      "output": "release"
+    },
+    "win": {
+      "target": [
+        "nsis"
+      ]
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true
+    }
+  }
+}

@@ -76,4 +76,3 @@ You can upload datasets (Excel/CSV) through the **Masters > Dataset Upload** tab
 - PHP 8
 - MySQL 8
 - Recharts
-- Lucide Icons
